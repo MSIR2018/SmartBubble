@@ -4,18 +4,91 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="choose_beast.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
 
   <body>
-	<center><h3>SmartBubble</h3></center>
-	<input id="checkBox" type="checkbox"> Activer l'IA ? </br>
-		Value1: <input id="value1" class="form-control" type="text" /></br>
-		Value2: <input id="value2" class="form-control" type="text" /></br>
-		Value3: <input id="value3" class="form-control" type="text" /></br>
-		Value4: <input id="value4" class="form-control" type="text" /></br>
-	</br>
-	<center><button id="button_launch_smart" type="button" class="btn btn-primary" >Lancer</button></center>
-    <script src="choose_beast.js"></script>
+  	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+	<form class="form-horizontal">
+<fieldset>
+
+<!-- Form Name -->
+<legend>SmartBubble</legend>
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="role">Rôle</label>
+  <div class="col-md-4"> 
+    <label class="radio-inline" for="role-0">
+      <input type="radio" name="role" id="role-0" value="magasin" >
+      Magasin
+    </label> 
+    <label class="radio-inline" for="role-1">
+      <input type="radio" name="role" id="role-1" value="distributeur">
+      Distributeur
+    </label> 
+    <label class="radio-inline" for="role-2">
+      <input type="radio" name="role" id="role-2" value="grossiste">
+      Grossiste
+    </label> 
+    <label class="radio-inline" for="role-3">
+      <input type="radio" name="role" id="role-3" value="industriel">
+      Industriel
+    </label>
+    <label class="radio-inline" for="auto">
+      <input type="radio" name="role" id="auto" value="auto" checked="checked">
+      Auto
+    </label>
+  </div>
+</div>
+
+<!-- Value 1 input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="value1">Value 1</label>  
+  <div class="col-md-4">
+  <input id="value1" name="value1" type="text" placeholder="Value 1" class="form-control input-md">  
+  </div>
+</div>
+
+<!-- Value 2 input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="value2">Value 2</label>  
+  <div class="col-md-4">
+  <input id="value2" name="value2" type="text" placeholder="Value 2" class="form-control input-md">
+  </div>
+</div>
+
+<!-- Value 3 input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="value3">Value 3</label>  
+  <div class="col-md-4">
+  <input id="value3" name="value3" type="text" placeholder="Value 3" class="form-control input-md"> 
+  </div>
+</div>
+
+<!-- Value 4 input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="value4">Value 4</label>  
+  <div class="col-md-4">
+  <input id="value4" name="value4" type="text" placeholder="Value 4" class="form-control input-md"> 
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <div class="col-md-4">
+    <button id="button_launch_smart" name="button_launch_smart" class="btn btn-primary center-block">Submit</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+			</div>
+		</div>
+	</div>
+    <script src="choose_beast.js"></script>    
   </body>
 
 </html>
