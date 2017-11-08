@@ -1,0 +1,8 @@
+html, body {
+  width: 500px;
+  /*height: 200px;*/
+}
+
+#button_launch_smart{
+	width: 200px;
+}
