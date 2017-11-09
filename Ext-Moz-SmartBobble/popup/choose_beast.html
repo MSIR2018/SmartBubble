@@ -1,92 +1,134 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="choose_beast.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   </head>
-
   <body>
   	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12">
-<fieldset>
-
+		  <div class="row">
+			 <div class="col-md-12">
+        <fieldset>
 <!-- Form Name -->
 <legend>SmartBubble</legend>
-
 <!-- Multiple Radios (inline) -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="role">Rôle</label>
-  <div class="col-md-4"> 
-    <label class="radio-inline" for="role-0">
-      <input type="radio" name="role" id="magasin" value="magasin" >
-      Magasin
-    </label> 
-    <label class="radio-inline" for="role-1">
-      <input type="radio" name="role" id="distributeur" value="distributeur">
-      Distributeur
-    </label> 
-    <label class="radio-inline" for="role-2">
-      <input type="radio" name="role" id="grossiste" value="grossiste">
-      Grossiste
-    </label> 
-    <label class="radio-inline" for="role-3">
-      <input type="radio" name="role" id="industriel" value="industriel">
-      Industriel
-    </label>
-    <label class="radio-inline" for="auto">
-      <input type="radio" name="role" id="auto" value="auto" checked="checked">
-      Auto
-    </label>
-  </div>
-</div>
-
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="role">Rôle</label>
+            <div class="col-md-4"> 
+              <label class="radio-inline" for="role-0">
+                <input type="radio" name="role" id="magasin" value="magasin" >
+                Magasin
+              </label> 
+              <label class="radio-inline" for="role-1">
+                <input type="radio" name="role" id="distributeur" value="distributeur">
+                Distributeur
+              </label> 
+              <label class="radio-inline" for="role-2">
+                <input type="radio" name="role" id="grossiste" value="grossiste">
+                Grossiste
+              </label> 
+              <label class="radio-inline" for="role-3">
+                <input type="radio" name="role" id="industriel" value="industriel">
+                Industriel
+              </label>
+              <label class="radio-inline" for="auto">
+                <input type="radio" name="role" id="auto" value="auto" checked="checked">
+                Auto
+              </label>
+            </div>
+          </div>
+<!-- Multiple Checkboxes (inline) -->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="confiance">Niveau de confiance</label>
+            <div class="col-md-4">
+              <label class="checkbox-inline" for="confiance-0">
+                <input type="checkbox" name="confiance" id="confiance-0" value="0">
+                0
+              </label>
+              <label class="checkbox-inline" for="confiance-1">
+                <input type="checkbox" name="confiance" id="confiance-1" value="1">
+                1
+              </label>
+              <label class="checkbox-inline" for="confiance-2">
+                <input type="checkbox" name="confiance" id="confiance-2" value="2">
+                2
+              </label>
+              <label class="checkbox-inline" for="confiance-3">
+                <input type="checkbox" name="confiance" id="confiance-3" value="3">
+                3
+              </label>
+              <label class="checkbox-inline" for="confiance-4">
+                <input type="checkbox" name="confiance" id="confiance-4" value="4">
+                4
+              </label>
+              <label class="checkbox-inline" for="confiance-5">
+                <input type="checkbox" name="confiance" id="confiance-5" value="5">
+                5
+              </label>
+            </div>
+          </div>
+<!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="jours">Nombre de jours</label>  
+            <div class="col-md-4">
+            <input type="range" id="confidenceAmount" min="0" max="5" step="1">
+            <div class="col-xs-12 text-center" id="confidenceLevel">3</div>
+            </div>
+          </div>
 <!-- Value 1 input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="value1">Value 1</label>  
-  <div class="col-md-4">
-  <input id="value1" name="value1" type="text" placeholder="Value 1" class="form-control input-md col-xs-4">  
-  </div>
-</div>
-
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="vente">Prix de vente</label>  
+            <div class="col-md-4">
+            <input id="vente" name="vente" type="text" placeholder="Prix de vente" class="form-control input-md col-xs-4">  
+            </div>
+          </div>
 <!-- Value 2 input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="value2">Value 2</label>  
-  <div class="col-md-4">
-  <input id="value2" name="value2" type="text" placeholder="Value 2" class="form-control input-md">
-  </div>
-</div>
-
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="achat">Prix d'achat</label>  
+            <div class="col-md-4">
+            <input id="achat" name="achat" type="text" placeholder="Prix d'achat" class="form-control input-md col-xs-4">
+            </div>
+          </div>
 <!-- Value 3 input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="value3">Value 3</label>  
-  <div class="col-md-4">
-  <input id="value3" name="value3" type="text" placeholder="Value 3" class="form-control input-md"> 
-  </div>
-</div>
-
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="commande">Coût de la commande</label>  
+            <div class="col-md-4">
+            <input id="commande" name="commande" type="text" placeholder="Coût de la commande" class="form-control input-md col-xs-4"> 
+            </div>
+          </div>
 <!-- Value 4 input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="value4">Value 4</label>  
-  <div class="col-md-4">
-  <input id="value4" name="value4" type="text" placeholder="Value 4" class="form-control input-md"> 
-  </div>
-</div>
-
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="fixe">Coût fixe</label>  
+            <div class="col-md-4">
+            <input id="fixe" name="fixe" type="text" placeholder="Coût fixe" class="form-control input-md col-xs-4"> 
+            </div>
+          </div>
+<!-- Value 5 input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="rupture">Coût de rupture</label>  
+            <div class="col-md-4">
+            <input id="rupture" name="rupture" type="text" placeholder="Coût de rupture" class="form-control input-md col-xs-4"> 
+            </div>
+          </div>
+<!-- Value 6 input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="stockage">Coût de stockage</label>  
+            <div class="col-md-4">
+            <input id="stockage" name="stockage" type="text" placeholder="Coût de stockage" class="form-control input-md col-xs-4s"> 
+            </div>
+          </div>
 <!-- Button -->
-<div class="form-group">
-  <div class="col-md-4">
-    <button id="button_launch_smart" name="button_launch_smart" class="btn btn-primary center-block">Submit</button>
-  </div>
-</div>
-
-</fieldset>
+          <div class="form-group">
+            <div class="col-md-4">
+              <button id="button_launch_smart" name="button_launch_smart" class="btn btn-success center-block">Démarrer le robot</button>
+<!--<button id="button_launch_smart" name="button_launch_smart" class="btn btn-danger center-block">Arrêter le robot</button>-->
+            </div>
+          </div>
+        </fieldset>
 			</div>
 		</div>
 	</div>
     <script src="choose_beast.js"></script>    
   </body>
-
 </html>
