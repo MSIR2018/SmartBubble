@@ -20,10 +20,12 @@
     "default_popup": "popup/choose_beast.html"
   },
 
-  "web_accessible_resources": [
-    "beasts/frog.jpg",
-    "beasts/turtle.jpg",
-    "beasts/snake.jpg"
+  
+  "content_scripts": [
+    {
+      "matches": ["*://*.npgconseil.com/*"],
+      "js": ["/content_scripts/beastify.js"]
+    }
   ]
 
 }
