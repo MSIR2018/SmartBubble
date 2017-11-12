@@ -1,3 +1,4 @@
+browser.runtime.onMessage.addListener(actions);
 function getcookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -110,7 +111,6 @@ function selectjour(jourselect){
 }
 
 function olddemandes(addjour,reception){
-	
 	var jourj = getcookie('jourj');
 	var jour1 = getcookie('jour1');
 	var jour2 = getcookie('jour2');
@@ -179,11 +179,9 @@ function setalgo(algo){
 function setautoplay(statusplay){
 	setcookie('autoplay',statusplay);
 	if(statusplay == "stop"){
-		//alert('Le Bot a été stoppé !');
 		notify("info","Arrêt du Bot","Le Bot a été arrêté !");
 		resetbot();
 	}else if(statusplay == "start"){
-		//alert('Le Bot a été lancé !\nNe pas toucher l\'ecran');
 		notify("info","Demarrage du Bot","         Le Bot a été lancé !\n --- Ne pas toucher l\'ecran ---");
 	}
 	location.reload(); 
@@ -213,19 +211,11 @@ document.getElementById('valideConfirm').click(); //confim box
 notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée");
 
 setTimeout(function(){
-	document.getElementById('maModal').children[0].children[0].children[1].children[0].children[0].value = confiance; //set confiance
-	document.getElementById('maModal').children[0].children[0].children[2].children[0].click(); //confim confiance
+	var buttonmodal = $('#maModal :button')[1];
+	var title = $('#maModal .modal-title')[0];
+	var inputconfiance = $('#maModal #confidenceAmount')[0];
+	if(title.innerHTML == "Confirmation"){ inputconfiance.value=confiance; buttonmodal.click(); }
 	}, 2000);
-}
-
-function validetour(){
-	setTimeout(function(){
-	var statusmodal = document.getElementById('maModal').classList.contains('in');
-	if (statusmodal == true){ 
-		document.getElementById('valideConfirm').click(); //confim tour en cours
-	}
-	}, 1000);
-	//return statusmodal;
 }
 
 function resetbot(){
@@ -304,37 +294,36 @@ function autoplay(profil,confiance,maxjour){
 	var ventes = getventes();
 	var algo = getalgo();
 	
-	validetour(); //validate modal
-	
 	if(currentjour > getcookie('currentjour')){
 		setcookie('currentjour',getjour());
-		
 		
 		if(algo == 'algo1'){ //choix de l'algo
 			var decision = algoalexis(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
 		}
 		
 		validateform(decision,confiance);
+	}else if(currentjour == maxjour){
+		notify("info","C\'est le dernier jour !","Le Bot termine ses commandes");
+		setTimeout(function(){ //on stoppe le bot
+			setautoplay('stop');
+		}, 2000);
 	}
-	if(currentjour == maxjour){
-		alert('Fin des tours');
-		setautoplay('stop');
-	}
-	/*
-	if(currentjour == getcookie('currentjour')){
-		while(validetour() = false){
-			//validetour();
-		}
-	}
-	*/
+	
 }
 
-browser.runtime.onMessage.addListener(actions);
-
-//autoplay start event
+//autoplay start event on refresh
 if( getautoplay() == "start"){
 	setTimeout(function(){ //wait html rendering
 		autoplay(getprofil(),getconfiance(),getmaxjour());
 	}, 2000);
 }
+
+$('#maModal').on('mouseenter', function (e) { //on valide toute les modal info
+	var buttonmodal = $('#maModal :button')[1];
+	var info = $('#maModal .modal-title')[0];
+	if(info.innerHTML == "Information"){ 
+		
+		buttonmodal.click(); 
+	}
+});
 

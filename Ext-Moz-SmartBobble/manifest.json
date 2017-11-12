@@ -23,13 +23,13 @@
   },
 
 	"background": {
-    "scripts": ["/content_scripts/notify.js"]
+    "scripts": ["/background/notify.js"]
   },
   
   "content_scripts": [
     {
       "matches": ["*://*.npgconseil.com/*"],
-      "js": ["/content_scripts/beastify.js"]
+      "js": ["/content_scripts/jquery.js", "/content_scripts/beastify.js"]
     }
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'"
