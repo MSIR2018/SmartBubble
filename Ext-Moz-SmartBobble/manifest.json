@@ -11,7 +11,9 @@
   },
 
   "permissions": [
-    "activeTab"
+    "activeTab",
+	"webRequest",
+	"notifications"
   ],
 
   "browser_action": {
@@ -20,12 +22,16 @@
     "default_popup": "popup/choose_beast.html"
   },
 
+	"background": {
+    "scripts": ["/content_scripts/notify.js"]
+  },
   
   "content_scripts": [
     {
       "matches": ["*://*.npgconseil.com/*"],
       "js": ["/content_scripts/beastify.js"]
     }
-  ]
+  ],
+  "content_security_policy": "script-src 'self'; object-src 'self'"
 
 }

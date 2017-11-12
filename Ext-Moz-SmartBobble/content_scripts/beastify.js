@@ -17,15 +17,25 @@ function setcookie(name,value) {
     document.cookie = name+'='+value;
 	return value;
 }
-function actions(request, sender, sendResponse){
+
+function notify(type,title,content) {
+  browser.runtime.sendMessage({"type": type,"title": title,"content": content});
+}
+
+function actions(request, sender, sendResponse){ //actions des boutons
 	var confiance = setconfiance(request.confiance);
 	var profil = setprofil(request.profil);
 	var maxjour = setmaxjour(request.maxjour);
+	var algo = setalgo(request.algo);
+	var statusauto = request.buttonstatus;
 	
-	switchautoplay();
 	
-	//required
-	browser.runtime.onMessage.removeListener(actions);	
+	if(statusauto == "start"){
+		displayinfo();	
+	}
+	setautoplay(statusauto); //changement etat
+	
+	browser.runtime.onMessage.removeListener(actions);	//required
 }
 
 function getprofil(){
@@ -75,15 +85,50 @@ function getjour(){
 	var jour = document.getElementsByClassName('tourCalendrier')[0].innerHTML;
 	return jour;
 }
+
 function selectjour(jourselect){
-	var maxjour = 7;
-	for(var i = 0; i < maxjour ;i++){
+	var maxtab = 15;
+	function pagesuivante(){
+		document.getElementById('tourSuiv').click();
+	}
+	function pageprecedente(){
+		document.getElementById('tourPrec').click();
+	}
+	for(var i = 0; i < maxtab ;i++){
+		var jour = document.getElementsByClassName('selectTour')[i];
+		if(i == 0){ //acces aux pages precedentees hors du tableau
+			var inter = jourselect-jour.innerHTML;
+			var page = inter/maxtab;
+			if(page > 0){ for(var p = 0; p < page ;p++){ pagesuivante(); } }
+			if(page < 0){ for(var p = 0; p > page ;p--){ pageprecedente(); } }
+		}
 		var jour = document.getElementsByClassName('selectTour')[i];
 		if ( jour.innerHTML == jourselect ){
 			jour.click();
 		}
 	}
 }
+
+function olddemandes(addjour,reception){
+	
+	var jourj = getcookie('jourj');
+	var jour1 = getcookie('jour1');
+	var jour2 = getcookie('jour2');
+	
+	jour2=jour1;
+	jour1=jourj;
+	jourj=addjour;
+	
+	setcookie('jourj',jourj);
+	setcookie('jour1',jour1);
+	setcookie('jour2',jour2);
+	
+	if(getcookie('jour2') == ''){
+		jour2=reception;
+	}
+	return jour2;
+}
+
 function getdecisionstatus(){
 	var decisionstatus = document.getElementById('decision').disabled;
 	return decisionstatus;
@@ -98,7 +143,10 @@ function getconfiance(){
 	return getcookie('confiance');
 }
 function getautoplay(){
-	return getcookie('autoplay')
+	return getcookie('autoplay');
+}
+function getalgo(){
+	return getcookie('algo');
 }
 
 function setprofil(profilselect){
@@ -125,24 +173,25 @@ function setmaxjour(jour){
 	setcookie('maxjour',jour);
 	return jour;
 }
+function setalgo(algo){
+	setcookie('algo',algo);
+}
 function setautoplay(statusplay){
 	setcookie('autoplay',statusplay);
-	return statusplay;
-}
-function switchautoplay(){
-	if(getautoplay() == "start"){
-		setautoplay('stop');
-		alert('L\'automate a été stoppé !');
-	}else{
-		setautoplay('start');
-		alert('L\'automate a été lancé !');
+	if(statusplay == "stop"){
+		//alert('Le Bot a été stoppé !');
+		notify("info","Arrêt du Bot","Le Bot a été arrêté !");
+		resetbot();
+	}else if(statusplay == "start"){
+		//alert('Le Bot a été lancé !\nNe pas toucher l\'ecran');
+		notify("info","Demarrage du Bot","         Le Bot a été lancé !\n --- Ne pas toucher l\'ecran ---");
 	}
 	location.reload(); 
+	return statusplay;
 }
 
-function displayinfo(profil){
-	//selectjour('4');
-	//var profil = getprofil();
+function displayinfo(){
+	var confiance = getconfiance();
 	var demande = getdemandes();
 	var stock_debut = getstock_debut();
 	var stock_fin = getstock_fin();
@@ -150,8 +199,10 @@ function displayinfo(profil){
 	var reception = getreception();
 	var ventes = getventes();
 	var jour = getjour();
+	var profil = getprofil();
+	var algo = getalgo();
 	
-alert('Demandes:'+demande+'\nStock de debut:'+stock_debut+'\nStock de fin:'+stock_fin+'\nRupture:'+rupture+'\nReception:'+reception+'\nVentes:'+ventes+'\nProfil:'+profil+'\nJour:'+jour);
+alert('Demandes:'+demande+'\nStock de debut:'+stock_debut+'\nStock de fin:'+stock_fin+'\nRupture:'+rupture+'\nReception:'+reception+'\nVentes:'+ventes+'\nProfil:'+profil+'\nJour:'+jour+'\nConfiance:'+confiance+'\nAlgo selectionné:'+algo);
 }
 
 function validateform(decision,confiance){
@@ -159,10 +210,86 @@ document.getElementById('decision').value = decision; //set decision
 document.getElementById('envoiDecision').click(); //confirm decision
 document.getElementById('valideConfirm').click(); //confim box
 
+notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée");
+
 setTimeout(function(){
 	document.getElementById('maModal').children[0].children[0].children[1].children[0].children[0].value = confiance; //set confiance
 	document.getElementById('maModal').children[0].children[0].children[2].children[0].click(); //confim confiance
 	}, 2000);
+}
+
+function validetour(){
+	setTimeout(function(){
+	var statusmodal = document.getElementById('maModal').classList.contains('in');
+	if (statusmodal == true){ 
+		document.getElementById('valideConfirm').click(); //confim tour en cours
+	}
+	}, 1000);
+	//return statusmodal;
+}
+
+function resetbot(){
+	setcookie('currentjour','');
+	setcookie('jourj','');
+	setcookie('jour1','');
+	setcookie('jour2','');
+	setcookie('confiance','');
+	setcookie('maxjour','');
+	location.reload(); 
+}
+
+function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,ventes,currentjour){
+	var stockMagasinDebutJournee = stock_debut;
+    var stockMagasinFinJournee = stock_fin;
+    var commandAuDistributeur = 0;
+    var demandeRecue = demande;
+    var produitRecue = reception;
+    var demandeEffectue = olddemandes(demande,reception); //enregistre demandes j-3 
+    var ruptureN1 = 0;
+    var rupture = ruptureA;
+    var totalCmd = 0;
+    var totalCmdFinal = 0;
+    var ratioCmdSup = 1.9;
+    var ratioCmdInf = 1;
+	var ruptureN1 = demandeEffectue-produitRecue
+	
+	demandeRecue=parseInt(demandeRecue);
+	rupture=parseInt(rupture);
+	
+	if(ruptureN1 != 0){ //RUPTURE
+       totalCmdFinal = (demandeRecue+rupture);
+           if(stockMagasinDebutJournee <= ratioCmdSup*totalCmdFinal)
+            {
+                commandAuDistributeur = (demandeRecue +(rupture))-(ruptureN1/2);
+            }
+            else{
+                commandAuDistributeur = (demandeRecue*1.9) +(rupture)-(ruptureN1/2);
+            }
+
+    }else{
+
+            if(stockMagasinDebutJournee <=totalCmdFinal){
+                commandAuDistributeur = demandeRecue+rupture;
+            }
+            else{
+                commandAuDistributeur = (demandeRecue*1.9)+rupture;
+            }
+    }
+	if(profil == 'industriel'){
+		if (stockMagasinDebutJournee > 150){commandAuDistributeur=0; }
+	}
+	if(profil == 'grossiste'){
+		if (stockMagasinDebutJournee > 100){commandAuDistributeur=5; }
+	}
+	if(profil == 'distributeur'){
+		if (stockMagasinDebutJournee > 80){commandAuDistributeur=10; }
+	}
+	if(profil == 'magasin'){
+		if (stockMagasinDebutJournee > 50){commandAuDistributeur=10; }
+	}
+	if(commandAuDistributeur < 0){ commandAuDistributeur=0; }
+	if(commandAuDistributeur > 100){ commandAuDistributeur=100; }
+    return commandAuDistributeur;
 }
 
 function autoplay(profil,confiance,maxjour){
@@ -175,18 +302,31 @@ function autoplay(profil,confiance,maxjour){
 	var rupture = getrupture();
 	var reception = getreception();
 	var ventes = getventes();
+	var algo = getalgo();
 	
+	validetour(); //validate modal
 	
-	if(currentjour != getcookie('currentjour')){
+	if(currentjour > getcookie('currentjour')){
 		setcookie('currentjour',getjour());
-		var decision = '10';
 		
-		displayinfo(profil);
 		
-		// algo
+		if(algo == 'algo1'){ //choix de l'algo
+			var decision = algoalexis(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
+		}
 		
 		validateform(decision,confiance);
 	}
+	if(currentjour == maxjour){
+		alert('Fin des tours');
+		setautoplay('stop');
+	}
+	/*
+	if(currentjour == getcookie('currentjour')){
+		while(validetour() = false){
+			//validetour();
+		}
+	}
+	*/
 }
 
 browser.runtime.onMessage.addListener(actions);
