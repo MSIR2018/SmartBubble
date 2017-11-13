@@ -15,4 +15,6 @@
  ## Utilisation
  - Se rendre sur le site https://bubblemakerbeta.npgconseil.com/eleve
  - Cliquer sur l'icon de l'extension dans la barre du naviguateur
- - {INSTRUCTION A VENIR}
+ - Remplir les champs jours max / confiance / algo
+ - Et cliquer sur Lancer le bot
+ 
