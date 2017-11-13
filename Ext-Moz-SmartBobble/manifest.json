@@ -13,7 +13,8 @@
   "permissions": [
     "activeTab",
 	"webRequest",
-	"notifications"
+	"notifications",
+	"https://bubblemakerbeta.npgconseil.com/*"
   ],
 
   "browser_action": {
@@ -32,6 +33,6 @@
       "js": ["/content_scripts/jquery.js", "/content_scripts/beastify.js"]
     }
   ],
-  "content_security_policy": "script-src 'self'; object-src 'self'"
+  "content_security_policy": "default-src 'none'; script-src 'self' 'unsafe-eval' https://*.npgconseil.com; object-src 'self' 'unsafe-eval' https://*.npgconseil.com;"
 
 }

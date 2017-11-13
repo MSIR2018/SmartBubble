@@ -1,4 +1,4 @@
-browser.runtime.onMessage.addListener(actions);
+browser.runtime.onMessage.addListener(actions); //event boutton
 function getcookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -30,13 +30,13 @@ function actions(request, sender, sendResponse){ //actions des boutons
 	var algo = setalgo(request.algo);
 	var statusauto = request.buttonstatus;
 	
-	
+	/*
 	if(statusauto == "start"){
 		displayinfo();	
-	}
-	setautoplay(statusauto); //changement etat
+	}*/
+	setautoplay(statusauto); //changement etat en fonction des bouttons
 	
-	browser.runtime.onMessage.removeListener(actions);	//required
+	browser.runtime.onMessage.removeListener(actions);	//on quitte le listener
 }
 
 function getprofil(){
@@ -204,6 +204,7 @@ alert('Demandes:'+demande+'\nStock de debut:'+stock_debut+'\nStock de fin:'+stoc
 }
 
 function validateform(decision,confiance){
+	decision = Math.round(decision);
 document.getElementById('decision').value = decision; //set decision
 document.getElementById('envoiDecision').click(); //confirm decision
 document.getElementById('valideConfirm').click(); //confim box
@@ -266,16 +267,19 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
             }
     }
 	if(profil == 'industriel'){
-		if (stockMagasinDebutJournee > 150){commandAuDistributeur=0; }
+		if (stockMagasinDebutJournee > 100){commandAuDistributeur=0; }
 	}
 	if(profil == 'grossiste'){
-		if (stockMagasinDebutJournee > 100){commandAuDistributeur=5; }
+		if (stockMagasinDebutJournee > 100){commandAuDistributeur=0; }
+		if(commandAuDistributeur > 80){ commandAuDistributeur=80; }
 	}
 	if(profil == 'distributeur'){
-		if (stockMagasinDebutJournee > 80){commandAuDistributeur=10; }
+		if (stockMagasinDebutJournee > 90){commandAuDistributeur=0; }
+		if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
 	}
 	if(profil == 'magasin'){
-		if (stockMagasinDebutJournee > 50){commandAuDistributeur=10; }
+		if (stockMagasinDebutJournee > 60){commandAuDistributeur=0; }
+		if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
 	}
 	if(commandAuDistributeur < 0){ commandAuDistributeur=0; }
 	if(commandAuDistributeur > 100){ commandAuDistributeur=100; }
@@ -318,12 +322,10 @@ if( getautoplay() == "start"){
 	}, 2000);
 }
 
-$('#maModal').on('mouseenter', function (e) { //on valide toute les modal info
+$('#maModal').on('focus', function (e) { //on valide toute les modal info
 	var buttonmodal = $('#maModal :button')[1];
 	var info = $('#maModal .modal-title')[0];
 	if(info.innerHTML == "Information"){ 
-		
 		buttonmodal.click(); 
 	}
 });
-
