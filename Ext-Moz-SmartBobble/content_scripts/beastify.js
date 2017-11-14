@@ -1,4 +1,15 @@
 browser.runtime.onMessage.addListener(actions); //event boutton
+
+/*
+var script=document.createElement('object'); //inject le json
+script.id="jsondata";
+script.data="/eleve/get-data";
+script.height="50";
+script.width="100%";
+$("body").append(script);
+
+*/
+
 function getcookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -110,23 +121,20 @@ function selectjour(jourselect){
 	}
 }
 
-function olddemandes(addjour,reception){
+function olddemandes(addjour){
 	var jourj = getcookie('jourj');
 	var jour1 = getcookie('jour1');
-	var jour2 = getcookie('jour2');
 	
-	jour2=jour1;
 	jour1=jourj;
 	jourj=addjour;
 	
 	setcookie('jourj',jourj);
 	setcookie('jour1',jour1);
-	setcookie('jour2',jour2);
 	
-	if(getcookie('jour2') == ''){
-		jour2=reception;
+	if(getcookie('jour1') == ''){
+		jour1='0';
 	}
-	return jour2;
+	return jour1;
 }
 
 function getdecisionstatus(){
@@ -221,7 +229,6 @@ alert('Demandes:'+demande+'\nStock de debut:'+stock_debut+'\nStock de fin:'+stoc
 }
 
 function validateform(decision,confiance){
-	
 document.getElementById('decision').value = decision; //set decision
 document.getElementById('envoiDecision').click(); //confirm decision
 document.getElementById('valideConfirm').click(); //confim box
@@ -247,26 +254,23 @@ function resetbot(){
 	location.reload(); 
 }
 
+
 function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,ventes,currentjour){
 	var stockMagasinDebutJournee = stock_debut;
     var stockMagasinFinJournee = stock_fin;
     var commandAuDistributeur = 0;
     var demandeRecue = demande;
     var produitRecue = reception;
-    var demandeEffectue = olddemandes(demande,reception); //enregistre demandes j-3 
-    var ruptureN1 = 0;
+    var demandej1 = olddemandes(demande); //enregistre demandes j-1 
     var rupture = ruptureA;
-    var totalCmd = 0;
-    var totalCmdFinal = 0;
-    var ratioCmdSup = 1.9;
-    var ratioCmdInf = 1;
-	var ruptureN1 = demandeEffectue-produitRecue;
 	
 	var demandemag = setdemandemag(profil);
 	var stockn1 = setstockn1(profil);
 	
 	demandeRecue=parseInt(demandeRecue);
 	rupture=parseInt(rupture);
+	
+	//alert(getjson());
 	
 	/*
 	algo stock:
@@ -292,31 +296,43 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 	if(profil == 'grossiste'){
 		if(stockMagasinFinJournee < 50){
 			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
-			if(commandAuDistributeur > stockn1){
-				commandAuDistributeur=stockn1;
-			}
 		}else{
 			commandAuDistributeur=demandemag;
+		}
+		if(commandAuDistributeur > stockn1){
+					commandAuDistributeur=stockn1;
+			}
+		if(currentjour == '2'){
+			if(demandej1 > 50){ commandAuDistributeur=demandemag; }
+			
 		}
 	}
 	if(profil == 'distributeur'){
 		if(stockMagasinFinJournee < 50){
 			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
-			if(commandAuDistributeur > stockn1){
-				commandAuDistributeur=stockn1;
-			}
 		}else{
 			commandAuDistributeur=demandemag;
+		}
+		if(commandAuDistributeur > stockn1){
+				commandAuDistributeur=stockn1;
+		}
+		if(currentjour == '2'){
+			if(demandej1 > 50){ commandAuDistributeur=demandemag; }
+			
 		}
 	}
 	if(profil == 'magasin'){
 		if(stockMagasinFinJournee < 50){
 			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
-			if(commandAuDistributeur > stockn1){
-				commandAuDistributeur=stockn1;
-			}
 		}else{
 			commandAuDistributeur=demandemag;
+		}
+		if(commandAuDistributeur > stockn1){
+				commandAuDistributeur=stockn1;
+		}
+		if(currentjour == '2'){
+			if(demandej1 > 50){ commandAuDistributeur=demandemag; }
+			
 		}
 	}
 	
@@ -369,3 +385,30 @@ $('#maModal').on('focus', function (e) { //on valide toute les modal info
 		buttonmodal.click(); 
 	}
 });
+
+/*
+setTimeout(function(){
+	var currentjour = getjour();
+	var profil = getprofil();
+	if(profil == 'grossiste'){ rolen1='ind'; }
+	if(profil == 'distributeur'){ rolen1='gro'; }
+	if(profil == 'magasin'){ rolen1='dis'; }
+	
+	var json = $("object")[0].contentDocument.body.children[0].innerHTML;
+	var data = JSON.parse(json);
+	var demandemag = data[currentjour-1].mag.demande;
+	
+	var joueurstock= data[currentjour-1].rolen1.stock;
+	var joueurvente= data[currentjour-1].rolen1.vente;
+	var joueurreception= data[currentjour-1].rolen1.reception;
+	
+	joueurstock=parseInt(joueurstock);
+	joueurvente=parseInt(joueurvente);
+	joueurreception=parseInt(joueurreception);
+	
+	var stockn1 = (joueurstock-joueurvente)+joueurreception;
+	
+	alert(stockn1);
+}, 2000);
+
+*/
