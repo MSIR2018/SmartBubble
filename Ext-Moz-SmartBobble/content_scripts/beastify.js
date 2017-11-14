@@ -1,14 +1,15 @@
 browser.runtime.onMessage.addListener(actions); //event boutton
 
-/*
+function displayjson(){
 var script=document.createElement('object'); //inject le json
 script.id="jsondata";
 script.data="/eleve/get-data";
 script.height="50";
 script.width="100%";
 $("body").append(script);
+}
 
-*/
+//displayjson();
 
 function getcookie(cname) {
     var name = cname + "=";
@@ -288,14 +289,14 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 	
 	if(profil == 'industriel'){
 		if(stockMagasinFinJournee <= 50){
-			commandAuDistributeur=100;
+			commandAuDistributeur=80;
 		}else{
 			commandAuDistributeur=0;
 		}
 	}
 	if(profil == 'grossiste'){
-		if(stockMagasinFinJournee < 50){
-			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
+		if(stockMagasinFinJournee < 40){
+			commandAuDistributeur=(40-stockMagasinFinJournee)+demandeRecue;
 		}else{
 			commandAuDistributeur=demandemag;
 		}
@@ -308,8 +309,8 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 		}
 	}
 	if(profil == 'distributeur'){
-		if(stockMagasinFinJournee < 50){
-			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
+		if(stockMagasinFinJournee < 40){
+			commandAuDistributeur=(40-stockMagasinFinJournee)+demandeRecue;
 		}else{
 			commandAuDistributeur=demandemag;
 		}
@@ -322,8 +323,8 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 		}
 	}
 	if(profil == 'magasin'){
-		if(stockMagasinFinJournee < 50){
-			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
+		if(stockMagasinFinJournee < 40){
+			commandAuDistributeur=(40-stockMagasinFinJournee)+demandeRecue;
 		}else{
 			commandAuDistributeur=demandemag;
 		}
