@@ -187,24 +187,17 @@ function setautoplay(statusplay){
 	location.reload(); 
 	return statusplay;
 }
-function setdemanden1(profil){
+function setstockn1(profil){
 	var persoademande;
-	if(profil == 'grossiste'){
-		persoademande='industriel'
-	}
-	if(profil == 'distributeur'){
-		persoademande='grossiste';
-	}
-	if(profil == 'magasin'){
-		persoademande='distributeur'
-	}
-	
+	if(profil == 'grossiste'){ persoademande='industriel'; }
+	if(profil == 'distributeur'){ persoademande='grossiste'; }
+	if(profil == 'magasin'){ persoademande='distributeur'; }
 	if(profil != 'industriel'){
-		$('#maModal .modal-title').html('Demande N+1');
-		$('#maModal .modal-body').html("Veuillez entrer le stock du "+persoademande+": <p class='text-center'><input type='number' id='demanden1' min='0' step='1'/></p>");
-		$('#maModal .modal-footer').html('<button type="button" class="btn btn-default alertOk" id="validedemande" data-dismiss="modal">OK</button>');
+		$('#maModal .modal-title').html('Stock du'+persoademande);
+		$('#maModal .modal-body').html("Veuillez entrer le stock du "+persoademande+": <p class='text-center'><input type='number' id='stockn1' min='0' step='1'/></p>");
+		$('#maModal .modal-footer').html('<button type="button" class="btn btn-default alertOk" id="validestockn1" data-dismiss="modal">OK</button>');
 		$('#maModal').modal('show');
-		var demanden1 =  $("#demanden1").val();
+		var demanden1 =  $("#stockn1").val();
 		setcookie('demanden1',demanden1);
 		return demanden1;
 	}
@@ -226,11 +219,12 @@ alert('Demandes:'+demande+'\nStock de debut:'+stock_debut+'\nStock de fin:'+stoc
 }
 
 function validateform(decision,confiance){
-	decision = Math.round(decision);
+	
 document.getElementById('decision').value = decision; //set decision
 document.getElementById('envoiDecision').click(); //confirm decision
 document.getElementById('valideConfirm').click(); //confim box
 
+//decision = Math.round(decision);
 notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée");
 
 setTimeout(function(){
