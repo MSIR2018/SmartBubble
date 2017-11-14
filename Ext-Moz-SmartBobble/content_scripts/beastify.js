@@ -187,6 +187,28 @@ function setautoplay(statusplay){
 	location.reload(); 
 	return statusplay;
 }
+function setdemanden1(profil){
+	var persoademande;
+	if(profil == 'grossiste'){
+		persoademande='industriel'
+	}
+	if(profil == 'distributeur'){
+		persoademande='grossiste';
+	}
+	if(profil == 'magasin'){
+		persoademande='distributeur'
+	}
+	
+	if(profil != 'industriel'){
+		$('#maModal .modal-title').html('Demande N+1');
+		$('#maModal .modal-body').html("Veuillez entrer le stock du "+persoademande+": <p class='text-center'><input type='number' id='demanden1' min='0' step='1'/></p>");
+		$('#maModal .modal-footer').html('<button type="button" class="btn btn-default alertOk" id="validedemande" data-dismiss="modal">OK</button>');
+		$('#maModal').modal('show');
+		var demanden1 =  $("#demanden1").val();
+		setcookie('demanden1',demanden1);
+		return demanden1;
+	}
+}
 
 function displayinfo(){
 	var confiance = getconfiance();
@@ -271,15 +293,15 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 	}
 	if(profil == 'grossiste'){
 		if (stockMagasinDebutJournee > 100){commandAuDistributeur=0; }
-		if(commandAuDistributeur > 80){ commandAuDistributeur=80; }
+		//if(commandAuDistributeur > 80){ commandAuDistributeur=80; }
 	}
 	if(profil == 'distributeur'){
 		if (stockMagasinDebutJournee > 90){commandAuDistributeur=0; }
-		if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
+		//if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
 	}
 	if(profil == 'magasin'){
 		if (stockMagasinDebutJournee > 60){commandAuDistributeur=0; }
-		if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
+		//if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
 	}
 	if(commandAuDistributeur < 0){ commandAuDistributeur=0; }
 	if(commandAuDistributeur > 100){ commandAuDistributeur=100; }
@@ -298,7 +320,7 @@ function autoplay(profil,confiance,maxjour){
 	var ventes = getventes();
 	var algo = getalgo();
 	
-	if(currentjour > getcookie('currentjour')){
+	if(currentjour != getcookie('currentjour')){
 		setcookie('currentjour',getjour());
 		
 		if(algo == 'algo1'){ //choix de l'algo
