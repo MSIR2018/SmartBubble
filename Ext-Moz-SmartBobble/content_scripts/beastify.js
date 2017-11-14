@@ -303,7 +303,7 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 					commandAuDistributeur=stockn1;
 			}
 		if(currentjour == '2'){
-			if(demandej1 > 50){ commandAuDistributeur=demandemag; }
+			commandAuDistributeur=demandemag;
 			
 		}
 	}
@@ -317,7 +317,7 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 				commandAuDistributeur=stockn1;
 		}
 		if(currentjour == '2'){
-			if(demandej1 > 50){ commandAuDistributeur=demandemag; }
+			commandAuDistributeur=demandemag;
 			
 		}
 	}
@@ -331,7 +331,7 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 				commandAuDistributeur=stockn1;
 		}
 		if(currentjour == '2'){
-			if(demandej1 > 50){ commandAuDistributeur=demandemag; }
+			commandAuDistributeur=demandemag;
 			
 		}
 	}
