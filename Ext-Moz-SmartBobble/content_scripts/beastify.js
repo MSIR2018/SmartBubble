@@ -187,20 +187,22 @@ function setautoplay(statusplay){
 	location.reload(); 
 	return statusplay;
 }
+function setdemandemag(profil){
+	if(profil != 'industriel'){
+		var demanden1 = prompt("Veuillez indiquer la demande du magasin aujourd''hui");
+		return demanden1;
+	}else{ return 0; }
+}
+
 function setstockn1(profil){
 	var persoademande;
 	if(profil == 'grossiste'){ persoademande='industriel'; }
 	if(profil == 'distributeur'){ persoademande='grossiste'; }
 	if(profil == 'magasin'){ persoademande='distributeur'; }
 	if(profil != 'industriel'){
-		$('#maModal .modal-title').html('Stock du'+persoademande);
-		$('#maModal .modal-body').html("Veuillez entrer le stock du "+persoademande+": <p class='text-center'><input type='number' id='stockn1' min='0' step='1'/></p>");
-		$('#maModal .modal-footer').html('<button type="button" class="btn btn-default alertOk" id="validestockn1" data-dismiss="modal">OK</button>');
-		$('#maModal').modal('show');
-		var demanden1 =  $("#stockn1").val();
-		setcookie('demanden1',demanden1);
+		var demanden1 = prompt("Veuillez indiquer le stock "+persoademande);
 		return demanden1;
-	}
+	}else{ return 0; }
 }
 
 function displayinfo(){
@@ -258,45 +260,66 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
     var totalCmdFinal = 0;
     var ratioCmdSup = 1.9;
     var ratioCmdInf = 1;
-	var ruptureN1 = demandeEffectue-produitRecue
+	var ruptureN1 = demandeEffectue-produitRecue;
+	
+	var demandemag = setdemandemag(profil);
+	var stockn1 = setstockn1(profil);
 	
 	demandeRecue=parseInt(demandeRecue);
 	rupture=parseInt(rupture);
 	
-	if(ruptureN1 != 0){ //RUPTURE
-       totalCmdFinal = (demandeRecue+rupture);
-           if(stockMagasinDebutJournee <= ratioCmdSup*totalCmdFinal)
-            {
-                commandAuDistributeur = (demandeRecue +(rupture))-(ruptureN1/2);
-            }
-            else{
-                commandAuDistributeur = (demandeRecue*1.9) +(rupture)-(ruptureN1/2);
-            }
-
-    }else{
-
-            if(stockMagasinDebutJournee <=totalCmdFinal){
-                commandAuDistributeur = demandeRecue+rupture;
-            }
-            else{
-                commandAuDistributeur = (demandeRecue*1.9)+rupture;
-            }
-    }
+	/*
+	algo stock:
+	magasin=si stock < 50 then commande=(50-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	distrib=si stock < 50 then commande=(50-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	gross=si stock < 50 then commande=(50-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	ind=si stock <= 50 then commande=100 else commande=0 ;
+	
+	algo rupture:
+	magasin=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	distrib=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	gross=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	ind=si stock < 20 then commande=(20-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	*/
+	
 	if(profil == 'industriel'){
-		if (stockMagasinDebutJournee > 100){commandAuDistributeur=0; }
+		if(stockMagasinFinJournee <= 50){
+			commandAuDistributeur=100;
+		}else{
+			commandAuDistributeur=0;
+		}
 	}
 	if(profil == 'grossiste'){
-		if (stockMagasinDebutJournee > 100){commandAuDistributeur=0; }
-		//if(commandAuDistributeur > 80){ commandAuDistributeur=80; }
+		if(stockMagasinFinJournee < 50){
+			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
+			if(commandAuDistributeur > stockn1){
+				commandAuDistributeur=stockn1;
+			}
+		}else{
+			commandAuDistributeur=demandemag;
+		}
 	}
 	if(profil == 'distributeur'){
-		if (stockMagasinDebutJournee > 90){commandAuDistributeur=0; }
-		//if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
+		if(stockMagasinFinJournee < 50){
+			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
+			if(commandAuDistributeur > stockn1){
+				commandAuDistributeur=stockn1;
+			}
+		}else{
+			commandAuDistributeur=demandemag;
+		}
 	}
 	if(profil == 'magasin'){
-		if (stockMagasinDebutJournee > 60){commandAuDistributeur=0; }
-		//if(commandAuDistributeur > 70){ commandAuDistributeur=70; }
+		if(stockMagasinFinJournee < 50){
+			commandAuDistributeur=(50-stockMagasinFinJournee)+demandeRecue;
+			if(commandAuDistributeur > stockn1){
+				commandAuDistributeur=stockn1;
+			}
+		}else{
+			commandAuDistributeur=demandemag;
+		}
 	}
+	
 	if(commandAuDistributeur < 0){ commandAuDistributeur=0; }
 	if(commandAuDistributeur > 100){ commandAuDistributeur=100; }
     return commandAuDistributeur;
@@ -316,6 +339,7 @@ function autoplay(profil,confiance,maxjour){
 	
 	if(currentjour != getcookie('currentjour')){
 		setcookie('currentjour',getjour());
+		
 		
 		if(algo == 'algo1'){ //choix de l'algo
 			var decision = algoalexis(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
