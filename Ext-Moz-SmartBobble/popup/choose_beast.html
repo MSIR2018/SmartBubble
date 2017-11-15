@@ -53,60 +53,62 @@
           </div>
 
           <div class="form-group">
-            <label class="col-md-4 control-label" for="vente">Nombre de jours</label>  
+            <label class="col-md-4 control-label" for="jourmax">Nombre de jours</label>  
             <div class="col-md-4">
             <input id="jourmax" name="jourmax" type="number" placeholder="Nombre de jours" min="0" value="1" class="form-control input-md">  
             </div>
           </div>
 		    
 		  <div class="form-group">
-            <label class="col-md-4 control-label" for="vente">Choix de l'algorithme</label>  
+            <label class="col-md-4 control-label" for="algo">Choix de l'algorithme</label>  
             <div class="col-md-4">
 		  <select id="algo" class="form-control input-md">
-			  <option value="algo1" selected>Algo 1 (Alexis)</option> 
+			  <option value="algoauto">Algo automatique en fonction des couts</option>
+			  <option value="algo1" selected>Algo 1 Favorise le stock</option>
+			  <option value="algo2">Algo 2 Favorise la rupture</option>
 			</select>
 			</div>
           </div>
 		  
           <div class="form-group">
-            <label class="col-md-4 control-label" for="vente">Prix de vente</label>  
+            <label class="col-md-4 control-label" for="pxvente">Prix de vente</label>  
             <div class="col-md-4">
-            <input id="vente" name="vente" type="text" placeholder="Prix de vente" class="form-control input-md">  
+            <input id="pxvente" name="pxvente" type="text" placeholder="Prix de vente" class="form-control input-md">  
             </div>
           </div>
 		  
           <div class="form-group">
-            <label class="col-md-4 control-label" for="achat">Prix d'achat</label>  
+            <label class="col-md-4 control-label" for="pxachat">Prix d'achat</label>  
             <div class="col-md-4">
-            <input id="achat" name="achat" type="text" placeholder="Prix d'achat" class="form-control input-md ">
+            <input id="pxachat" name="pxachat" type="text" placeholder="Prix d'achat" class="form-control input-md ">
             </div>
           </div>
 		  
           <div class="form-group">
-            <label class="col-md-4 control-label" for="commande">Coût de la commande</label>  
+            <label class="col-md-4 control-label" for="ctlancement">Coût de lancement</label>  
             <div class="col-md-4">
-            <input id="commande" name="commande" type="text" placeholder="Coût de la commande" class="form-control input-md "> 
+            <input id="ctlancement" name="ctlancement" type="text" placeholder="Coût de lancement" class="form-control input-md "> 
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-md-4 control-label" for="fixe">Coût fixe</label>  
+            <label class="col-md-4 control-label" for="ctfixe">Coût fixe journalier</label>  
             <div class="col-md-4">
-            <input id="fixe" name="fixe" type="text" placeholder="Coût fixe" class="form-control input-md "> 
+            <input id="ctfixe" name="ctfixe" type="text" placeholder="Coût fixe" class="form-control input-md "> 
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-md-4 control-label" for="rupture">Coût de rupture</label>  
+            <label class="col-md-4 control-label" for="ctrupture">Coût de la rupture (en %)</label>  
             <div class="col-md-4">
-            <input id="rupture" name="rupture" type="text" placeholder="Coût de rupture" class="form-control input-md "> 
+            <input id="ctrupture" name="ctrupture" type="text" placeholder="Coût de la rupture" class="form-control input-md "> 
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-md-4 control-label" for="stockage">Coût de stockage</label>  
+            <label class="col-md-4 control-label" for="possession">Taux de possession journalier (en %)</label>  
             <div class="col-md-4">
-            <input id="stockage" name="stockage" type="text" placeholder="Coût de stockage" class="form-control input-md"> 
+            <input id="possession" name="possession" type="text" placeholder="Taux de possession journalier" class="form-control input-md"> 
             </div>
           </div>
 

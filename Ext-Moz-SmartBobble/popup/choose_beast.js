@@ -1,15 +1,15 @@
 browser.tabs.executeScript(null, { file: "/content_scripts/beastify.js" });
 
-document.addEventListener("click", (e) => {
-	var vente = document.getElementById('vente').value;
-	var achat = document.getElementById('achat').value;
-	var commande = document.getElementById('commande').value;
-	var fixe = document.getElementById('fixe').value;
-	var rupture = document.getElementById('rupture').value;
-	var stockage = document.getElementById('stockage').value;
+document.addEventListener("click", (e) => { //retour boutons
 	var confiance = document.getElementById('confidenceAmount').value;
 	var maxjour = document.getElementById('jourmax').value;
 	var algo = document.getElementById('algo').value;
+	var pxvente = document.getElementById('pxvente').value;
+	var pxachat = document.getElementById('pxachat').value;
+	var ctlancement = document.getElementById('ctlancement').value;
+	var ctfixe = document.getElementById('ctfixe').value;
+	var ctrupture = document.getElementById('ctrupture').value;
+	var possession = document.getElementById('possession').value;
 	
 	
 	for(var i = 0; i < 5 ;i++){ //get profil from checkboxes
@@ -19,7 +19,7 @@ document.addEventListener("click", (e) => {
 	if (e.target.id == 'button_launch_smart') { //bouton start
 		var gettingActiveTab = browser.tabs.query({active: true, currentWindow: true});
 		gettingActiveTab.then((tabs) => {
-		browser.tabs.sendMessage(tabs[0].id, {buttonstatus: 'start',algo: algo,profil: profil,confiance: confiance,maxjour: maxjour,vente: vente, achat: achat, commande: commande, fixe: fixe,rupture: rupture,stockage: stockage});
+		browser.tabs.sendMessage(tabs[0].id, {buttonstatus: 'start',algo: algo,profil: profil,confiance: confiance,maxjour: maxjour,pxvente: pxvente,pxachat: pxachat,ctlancement: ctlancement,ctfixe: ctfixe,ctrupture: ctrupture,possession: possession});
 		});
 	}
 	else if (e.target.classList.contains("clear")) {

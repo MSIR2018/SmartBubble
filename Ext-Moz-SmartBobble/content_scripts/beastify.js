@@ -1,14 +1,17 @@
 browser.runtime.onMessage.addListener(actions); //event boutton
 
-function displayjson(){
-var script=document.createElement('object'); //inject le json
+function displayjson(){ //inject le json
+var script=document.createElement('object'); 
 script.id="jsondata";
 script.data="/eleve/get-data";
-script.height="50";
-script.width="100%";
+script.height="0";
+script.width="0";
 $("body").append(script);
 
-setTimeout(function(){
+setTimeout(function(){ //on recupère les données json
+	var json = $("object")[0].contentDocument.body.children[0].innerHTML;
+	var data = JSON.parse(json);
+		
 	var currentjour = getjour();
 	var profil = getprofil();
 	var rolen1;
@@ -17,10 +20,7 @@ setTimeout(function(){
 	if(profil == 'distributeur'){ rolen1='gro'; }
 	if(profil == 'magasin'){ rolen1='dis'; }
 	
-	var json = $("object")[0].contentDocument.body.children[0].innerHTML;
-	var data = JSON.parse(json);
 	var demandemag = data[currentjour-1].mag.demande;
-	
 	var joueurstock= data[currentjour-1][rolen1].stock;
 	var joueurvente= data[currentjour-1][rolen1].vente;
 	var joueurreception= data[currentjour-1][rolen1].reception;
@@ -59,16 +59,22 @@ function notify(type,title,content) {
   browser.runtime.sendMessage({"type": type,"title": title,"content": content});
 }
 
-if(!document.getElementById('jsondata')){ displayjson(); } //load json display
+if(!document.getElementById('jsondata')){ displayjson(); } //load json data
 
 function actions(request, sender, sendResponse){ //actions des boutons
 	var confiance = setconfiance(request.confiance);
 	var profil = setprofil(request.profil);
 	var maxjour = setmaxjour(request.maxjour);
 	var algo = setalgo(request.algo);
+	var pxvente = setpxvente(request.pxvente);
+	var pxachat = setpxachat(request.pxachat);
+	var ctlancement = setctlancement(request.ctlancement);
+	var ctfixe = setctfixe(request.ctfixe);
+	var ctrupture = setctrupture(request.ctrupture);
+	var possession = setpossession(request.possession);
 	var statusauto = request.buttonstatus;
 	
-	/*
+	/* for debug
 	if(statusauto == "start"){
 		displayinfo();	
 	}*/
@@ -125,52 +131,6 @@ function getjour(){
 	return jour;
 }
 
-function selectjour(jourselect){
-	var maxtab = 15;
-	function pagesuivante(){
-		document.getElementById('tourSuiv').click();
-	}
-	function pageprecedente(){
-		document.getElementById('tourPrec').click();
-	}
-	for(var i = 0; i < maxtab ;i++){
-		var jour = document.getElementsByClassName('selectTour')[i];
-		if(i == 0){ //acces aux pages precedentees hors du tableau
-			var inter = jourselect-jour.innerHTML;
-			var page = inter/maxtab;
-			if(page > 0){ for(var p = 0; p < page ;p++){ pagesuivante(); } }
-			if(page < 0){ for(var p = 0; p > page ;p--){ pageprecedente(); } }
-		}
-		var jour = document.getElementsByClassName('selectTour')[i];
-		if ( jour.innerHTML == jourselect ){
-			jour.click();
-		}
-	}
-}
-
-function olddemandes(addjour){
-	var jourj = getcookie('jourj');
-	var jour1 = getcookie('jour1');
-	
-	jour1=jourj;
-	jourj=addjour;
-	
-	setcookie('jourj',jourj);
-	setcookie('jour1',jour1);
-	
-	if(getcookie('jour1') == ''){
-		jour1='0';
-	}
-	return jour1;
-}
-
-function getdecisionstatus(){
-	var decisionstatus = document.getElementById('decision').disabled;
-	return decisionstatus;
-}
-function getstartjour(){
-	return getcookie('startjour');
-}
 function getmaxjour(){
 	return getcookie('maxjour');
 }
@@ -189,6 +149,25 @@ function getstockn1(){
 function getdemandemag(){
 	return getcookie('demandemag');
 }
+function getpxvente(){
+	return getcookie('pxvente');
+}
+function getpxachat(){
+	return getcookie('pxachat');
+}
+function getctlancement(){
+	return getcookie('ctlancement');
+}
+function getctfixe(){
+	return getcookie('ctfixe');
+}
+function getctrupture(){
+	return getcookie('ctrupture');
+}
+function getpossession(){
+	return getcookie('possession');
+}
+
 
 function setprofil(profilselect){
 	var profil;
@@ -199,12 +178,6 @@ function setprofil(profilselect){
 	}
 	setcookie('profil',profil)
 	return profil;
-}
-function setstartjour(jour){
-	setcookie('startjour='+jour);
-}
-function setdecision(decision){
-	setcookie('decision',decision);
 }
 function setconfiance(confiance){
 	setcookie('confiance',confiance);
@@ -217,6 +190,24 @@ function setmaxjour(jour){
 function setalgo(algo){
 	setcookie('algo',algo);
 }
+function setpxvente(pxvente){
+	setcookie('pxvente',pxvente);
+}
+function setpxachat(pxachat){
+	setcookie('pxachat',pxachat);
+}
+function setctlancement(ctlancement){
+	setcookie('ctlancement',ctlancement);
+}
+function setctfixe(ctfixe){
+	setcookie('ctfixe',ctfixe);
+}
+function setctrupture(ctrupture){
+	setcookie('ctrupture',ctrupture);
+}
+function setpossession(possession){
+	setcookie('possession',possession);
+}
 function setautoplay(statusplay){
 	setcookie('autoplay',statusplay);
 	if(statusplay == "stop"){
@@ -228,25 +219,8 @@ function setautoplay(statusplay){
 	location.reload(); 
 	return statusplay;
 }
-function setdemandemag(profil){
-	if(profil != 'industriel'){
-		var demanden1 = prompt("Veuillez indiquer la demande du magasin aujourd''hui");
-		return demanden1;
-	}else{ return 0; }
-}
 
-function setstockn1(profil){
-	var persoademande;
-	if(profil == 'grossiste'){ persoademande='industriel'; }
-	if(profil == 'distributeur'){ persoademande='grossiste'; }
-	if(profil == 'magasin'){ persoademande='distributeur'; }
-	if(profil != 'industriel'){
-		var demanden1 = prompt("Veuillez indiquer le stock "+persoademande);
-		return demanden1;
-	}else{ return 0; }
-}
-
-function displayinfo(){
+function displayinfo(){ //debug form
 	var confiance = getconfiance();
 	var demande = getdemandes();
 	var stock_debut = getstock_debut();
@@ -260,13 +234,21 @@ function displayinfo(){
 	
 alert('Demandes:'+demande+'\nStock de debut:'+stock_debut+'\nStock de fin:'+stock_fin+'\nRupture:'+rupture+'\nReception:'+reception+'\nVentes:'+ventes+'\nProfil:'+profil+'\nJour:'+jour+'\nConfiance:'+confiance+'\nAlgo selectionné:'+algo);
 }
-function validateform(decision,confiance){
+function validateform(decision,confiance,stock_fin,pxachat,possession,ctrupture,rupture){
 document.getElementById('decision').value = decision; //set decision
 document.getElementById('envoiDecision').click(); //confirm decision
 document.getElementById('valideConfirm').click(); //confim box
 
 //decision = Math.round(decision);
-notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée");
+stock_fin=parseInt(stock_fin);
+pxachat=parseInt(pxachat);
+possession=parseInt(possession);
+ctrupture=parseInt(ctrupture);
+
+var coutstock = stock_fin*pxachat*(possession/100);
+var coutrupture = rupture*pxachat*(ctrupture/100);
+
+notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée \nCout de stockage: "+coutstock+"€ \nCout de rupture :"+coutrupture+"€");
 
 setTimeout(function(){
 	var buttonmodal = $('#maModal :button')[1];
@@ -286,17 +268,14 @@ function resetbot(){
 }
 
 
-function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,ventes,currentjour){
-	
-	var stockn1 = getstockn1(); //popup: setstockn1(profil);
-	var demandemag = getdemandemag(); //popup: setdemandemag(profil);
-	
+function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,ventes,currentjour){
+	var stockn1 = getstockn1(); 
+	var demandemag = getdemandemag();
 	var stockDebutJournee = stock_debut;
     var stockFinJournee = stock_fin;
     var commande = 0;
     var demandeRecue = demande;
     var produitRecue = reception;
-    var demandej1 = olddemandes(demande); //enregistre demandes j-1 
     var rupture = ruptureA;
 	
 	demandeRecue=parseInt(demandeRecue);
@@ -311,12 +290,6 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
 	distrib=si stock < 50 then commande=(50-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
 	gross=si stock < 50 then commande=(50-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
 	ind=si stock <= 50 then commande=100 else commande=0 ;
-	
-	algo rupture:
-	magasin=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
-	distrib=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
-	gross=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
-	ind=si stock < 20 then commande=(20-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
 	*/
 	
 	if(profil == 'industriel'){
@@ -373,10 +346,87 @@ function algoalexis(profil,stock_debut,stock_fin,ruptureA,demande,reception,vent
     return commande;
 }
 
+
+function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ventes,currentjour){
+	var stockn1 = getstockn1();
+	var demandemag = getdemandemag();
+	var stockDebutJournee = stock_debut;
+    var stockFinJournee = stock_fin;
+    var commande = 0;
+    var demandeRecue = demande;
+    var produitRecue = reception;
+    var rupture = ruptureA;
+	
+	demandeRecue=parseInt(demandeRecue);
+	rupture=parseInt(rupture);
+	stockFinJournee=parseInt(stockFinJournee);
+	demandemag=parseInt(demandemag);
+	
+	
+	/*
+	algo rupture:
+	magasin=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	distrib=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	gross=si stock < 10 then commande=(10-stock)+demandemag | if commamde > stockn1 then commande=stockn1 else commande=commande | else commande=demandemag 
+	ind=si stock < 20 then commande=(20-stock) else commande=demandemag 
+	*/
+	
+	if(profil == 'industriel'){
+		if(stockFinJournee < 20){
+			commande=20-stockFinJournee;
+		}else{
+			commande=0;
+		}
+	}
+	if(profil == 'grossiste'){
+		if(stockFinJournee < 10){
+			commande=(10-stockFinJournee)+demandemag;
+		}else{
+			commande=demandemag;
+		}
+		if(commande > stockn1){
+					commande=stockn1;
+			}
+		if(currentjour == '2'){
+			commande=demandemag;
+			
+		}
+	}
+	if(profil == 'distributeur'){
+		if(stockFinJournee < 10){
+			commande=(10-stockFinJournee)+demandemag;
+		}else{
+			commande=demandemag;
+		}
+		if(commande > stockn1){
+				commande=stockn1;
+		}
+		if(currentjour == '2'){
+			commande=demandemag;
+			
+		}
+	}
+	if(profil == 'magasin'){
+		if(stockFinJournee < 10){
+			commande=(10-stockFinJournee)+demandemag;
+		}else{
+			commande=demandemag;
+		}
+		if(commande > stockn1){
+				commande=stockn1;
+		}
+		if(currentjour == '2'){
+			commande=demandemag;
+		}
+	}
+	
+	if(commande < 0){ commande=0; }
+	if(commande > 100){ commande=100; }
+    return commande;
+}
+
 function autoplay(profil,confiance,maxjour){
-	var startjour = getstartjour();
 	var currentjour = getjour();
-	var decisionstatus =  getdecisionstatus();
 	var demande = getdemandes();
 	var stock_debut = getstock_debut();
 	var stock_fin = getstock_fin();
@@ -384,16 +434,32 @@ function autoplay(profil,confiance,maxjour){
 	var reception = getreception();
 	var ventes = getventes();
 	var algo = getalgo();
+	var pxvente = getpxvente();
+	var pxachat = getpxachat();
+	var ctlancement = getctlancement();
+	var ctfixe = getctfixe();
+	var ctrupture = getctrupture();
+	var possession = getpossession();
 	
 	if(currentjour != getcookie('currentjour')){
 		setcookie('currentjour',getjour());
 		
 		
-		if(algo == 'algo1'){ //choix de l'algo
-			var decision = algoalexis(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
+		if(algo == 'algo1'){ //choix de algo stock
+			var decision = algostock(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
+		}
+		if(algo == 'algo2'){ //choix de algo rupture
+			var decision = algorupture(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
+		}
+		if(algo == 'algoauto'){ //choix de algo auto en fonction des couts
+			if(ctrupture > possession){ 
+				var decision = algostock(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour); 
+			}else{
+				var decision = algorupture(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour);
+			}
 		}
 		
-		validateform(decision,confiance);
+		validateform(decision,confiance,stock_fin,pxachat,possession,ctrupture,rupture);
 	}else if(currentjour == maxjour){
 		notify("info","C\'est le dernier jour !","Le Bot termine ses commandes");
 		setTimeout(function(){ //on stoppe le bot
