@@ -372,51 +372,40 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 	*/
 	
 	if(profil == 'industriel'){
-		if(stockFinJournee < 20){
-			commande=20-stockFinJournee;
+		if(rupture > 30){
+			commande=30;
 		}else{
 			commande=0;
 		}
 	}
 	if(profil == 'grossiste'){
-		if(stockFinJournee < 10){
-			commande=(10-stockFinJournee)+demandemag;
+		if(rupture > 20){
+			commande=(rupture-20)+demandemag;
 		}else{
-			commande=demandemag;
+			commande=0;
 		}
-		if(commande > stockn1){
-					commande=stockn1;
-			}
 		if(currentjour == '2'){
-			commande=demandemag;
-			
+			commande=0;
 		}
 	}
 	if(profil == 'distributeur'){
-		if(stockFinJournee < 10){
-			commande=(10-stockFinJournee)+demandemag;
+		if(rupture > 20){
+			commande=(rupture-20)+demandemag;
 		}else{
-			commande=demandemag;
-		}
-		if(commande > stockn1){
-				commande=stockn1;
+			commande=0;
 		}
 		if(currentjour == '2'){
-			commande=demandemag;
-			
+			commande=0;
 		}
 	}
 	if(profil == 'magasin'){
-		if(stockFinJournee < 10){
-			commande=(10-stockFinJournee)+demandemag;
+		if(rupture > 20){
+			commande=(rupture-20)+demandemag;
 		}else{
-			commande=demandemag;
-		}
-		if(commande > stockn1){
-				commande=stockn1;
+			commande=0;
 		}
 		if(currentjour == '2'){
-			commande=demandemag;
+			commande=0;
 		}
 	}
 	
