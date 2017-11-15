@@ -248,7 +248,7 @@ ctrupture=parseInt(ctrupture);
 var coutstock = stock_fin*pxachat*(possession/100);
 var coutrupture = rupture*pxachat*(ctrupture/100);
 
-notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée \nCout de stockage: "+coutstock+"€ \nCout de rupture :"+coutrupture+"€");
+notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée \nCout de stockage: "+coutstock+"€ \nCout de rupture: "+coutrupture+"€");
 
 setTimeout(function(){
 	var buttonmodal = $('#maModal :button')[1];

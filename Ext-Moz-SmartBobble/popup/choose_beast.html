@@ -20,6 +20,10 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="role">Rôle</label>
   <div class="col-md-4"> 
+	<label class="radio-inline" for="auto">
+      <input type="radio" name="role" id="auto" value="auto" checked="checked">
+      Auto
+    </label>
     <label class="radio-inline" for="role-0">
       <input type="radio" name="role" id="role-0" value="magasin" >
       Magasin
@@ -36,10 +40,6 @@
       <input type="radio" name="role" id="role-3" value="industriel">
       Industriel
     </label>
-    <label class="radio-inline" for="auto">
-      <input type="radio" name="role" id="auto" value="auto" checked="checked">
-      Auto
-    </label>
   </div>
 </div>
 <!-- Text input-->
@@ -53,9 +53,9 @@
           </div>
 
           <div class="form-group">
-            <label class="col-md-4 control-label" for="jourmax">Nombre de jours</label>  
+            <label class="col-md-4 control-label" for="jourmax">Nombre de jours joué par le Bot</label>  
             <div class="col-md-4">
-            <input id="jourmax" name="jourmax" type="number" placeholder="Nombre de jours" min="0" value="1" class="form-control input-md">  
+            <input id="jourmax" name="jourmax" type="number" placeholder="Nombre de jours" min="0" value="1" step="1" class="form-control input-md">  
             </div>
           </div>
 		    
@@ -63,8 +63,8 @@
             <label class="col-md-4 control-label" for="algo">Choix de l'algorithme</label>  
             <div class="col-md-4">
 		  <select id="algo" class="form-control input-md">
-			  <option value="algoauto">Algo automatique en fonction des couts</option>
-			  <option value="algo1" selected>Algo 1 Favorise le stock</option>
+			  <option value="algoauto" selected>Algo automatique en fonction des coûts</option>
+			  <option value="algo1">Algo 1 Favorise le stock</option>
 			  <option value="algo2">Algo 2 Favorise la rupture</option>
 			</select>
 			</div>
@@ -73,42 +73,42 @@
           <div class="form-group">
             <label class="col-md-4 control-label" for="pxvente">Prix de vente</label>  
             <div class="col-md-4">
-            <input id="pxvente" name="pxvente" type="text" placeholder="Prix de vente" class="form-control input-md">  
+            <input id="pxvente" name="pxvente" type="number" placeholder="Prix de vente" min="0" value="0" class="form-control input-md">  
             </div>
           </div>
 		  
           <div class="form-group">
             <label class="col-md-4 control-label" for="pxachat">Prix d'achat</label>  
             <div class="col-md-4">
-            <input id="pxachat" name="pxachat" type="text" placeholder="Prix d'achat" class="form-control input-md ">
+            <input id="pxachat" name="pxachat" type="number" placeholder="Prix d'achat" min="0" value="0" class="form-control input-md ">
             </div>
           </div>
 		  
           <div class="form-group">
             <label class="col-md-4 control-label" for="ctlancement">Coût de lancement</label>  
             <div class="col-md-4">
-            <input id="ctlancement" name="ctlancement" type="text" placeholder="Coût de lancement" class="form-control input-md "> 
+            <input id="ctlancement" name="ctlancement" type="number" placeholder="Coût de lancement" min="0" value="0" class="form-control input-md "> 
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-md-4 control-label" for="ctfixe">Coût fixe journalier</label>  
             <div class="col-md-4">
-            <input id="ctfixe" name="ctfixe" type="text" placeholder="Coût fixe" class="form-control input-md "> 
+            <input id="ctfixe" name="ctfixe" type="number" placeholder="Coût fixe" min="0" value="0" class="form-control input-md "> 
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-md-4 control-label" for="ctrupture">Coût de la rupture (en %)</label>  
             <div class="col-md-4">
-            <input id="ctrupture" name="ctrupture" type="text" placeholder="Coût de la rupture" class="form-control input-md "> 
+            <input id="ctrupture" name="ctrupture" type="number" placeholder="Coût de la rupture" min="0" max="100" step="1" value="0" class="form-control input-md "> 
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-md-4 control-label" for="possession">Taux de possession journalier (en %)</label>  
             <div class="col-md-4">
-            <input id="possession" name="possession" type="text" placeholder="Taux de possession journalier" class="form-control input-md"> 
+            <input id="possession" name="possession" type="number" placeholder="Taux de possession journalier" min="0" max="100" step="1" value="0" class="form-control input-md"> 
             </div>
           </div>
 
