@@ -373,7 +373,7 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 	
 	if(profil == 'industriel'){
 		if(rupture > 30){
-			commande=30;
+			commande=50;
 		}else{
 			commande=0;
 		}
@@ -382,7 +382,11 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 20){
 			commande=(rupture-20)+demandemag;
 		}else{
-			commande=0;
+			if(demandemag <= rupture){
+				commande=demandemag;
+			}else{
+				commande=demandemag-rupture;
+			}
 		}
 		if(currentjour == '2'){
 			commande=0;
@@ -392,7 +396,11 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 20){
 			commande=(rupture-20)+demandemag;
 		}else{
-			commande=0;
+			if(demandemag <= rupture){
+				commande=demandemag;
+			}else{
+				commande=demandemag-rupture;
+			}
 		}
 		if(currentjour == '2'){
 			commande=0;
@@ -402,7 +410,11 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 20){
 			commande=(rupture-20)+demandemag;
 		}else{
-			commande=0;
+			if(demandemag <= rupture){
+				commande=demandemag;
+			}else{
+				commande=demandemag-rupture;
+			}
 		}
 		if(currentjour == '2'){
 			commande=0;
