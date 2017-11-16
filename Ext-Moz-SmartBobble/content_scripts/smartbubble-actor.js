@@ -392,8 +392,8 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 0){
 			commande=commande+20;
 		}
-		if(currentjour == '2'){
-			commande=demandemag;
+		if(currentjour <= '2'){
+			commande=0;
 			
 		}
 	}
@@ -409,8 +409,8 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 0){
 			commande=commande+20;
 		}
-		if(currentjour == '2'){
-			commande=demandemag;
+		if(currentjour <= '2'){
+			commande=0;
 			
 		}
 	}
@@ -426,8 +426,8 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 0){
 			commande=commande+20;
 		}
-		if(currentjour == '2'){
-			commande=demandemag;
+		if(currentjour <= '2'){
+			commande=0;
 		}
 	}
 	
