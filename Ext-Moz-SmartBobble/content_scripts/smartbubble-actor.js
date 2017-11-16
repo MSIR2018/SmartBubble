@@ -369,6 +369,7 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 	stockFinJournee=parseInt(stockFinJournee);
 	demandemag=parseInt(demandemag);
 	stockn1=parseInt(stockn1);
+	rupturemag=parseInt(rupturemag);
 	
 	
 	/*
