@@ -375,7 +375,7 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 	
 	if(profil == 'industriel'){
 		if(stockFinJournee <= 30){
-			commande=60;
+			commande=100;
 		}else{
 			commande=0;
 		}
