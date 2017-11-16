@@ -249,7 +249,6 @@ document.getElementById('decision').value = decision; //set decision
 document.getElementById('envoiDecision').click(); //confirm decision
 document.getElementById('valideConfirm').click(); //confim box
 
-//decision = Math.round(decision);
 stock_fin=parseInt(stock_fin);
 pxachat=parseInt(pxachat);
 possession=parseInt(possession);
@@ -257,6 +256,10 @@ ctrupture=parseInt(ctrupture);
 
 var coutstock = stock_fin*pxachat*(possession/100);
 var coutrupture = rupture*pxachat*(ctrupture/100);
+
+decision = Math.round(decision);
+coutstock = Math.round(coutstock);
+coutrupture = Math.round(coutrupture);
 
 notify("commande","Commande passée !","Une commande de "+decision+" vient d'être passée \nCout de stockage: "+coutstock+"€ \nCout de rupture: "+coutrupture+"€");
 
@@ -287,12 +290,16 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
     var demandeRecue = demande;
     var produitRecue = reception;
     var rupture = ruptureA;
+	var rupturemag = getrupturemag();
 	
+	stockn1=parseInt(stockn1);
+	demandemag=parseInt(demandemag);
+	stockDebutJournee=parseInt(stockDebutJournee);
+	stockFinJournee=parseInt(stockFinJournee);
 	demandeRecue=parseInt(demandeRecue);
 	rupture=parseInt(rupture);
-	stockFinJournee=parseInt(stockFinJournee);
-	demandemag=parseInt(demandemag);
-	stockn1=parseInt(stockn1);
+	rupturemag=parseInt(rupturemag);
+	produitRecue=parseInt(produitRecue);
 	
 	
 	/*
@@ -319,7 +326,7 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 		if(commande > stockn1){
 					commande=stockn1;
 			}
-		if(currentjour == '2'){
+		if(currentjour == 2){
 			commande=demandemag;
 			
 		}
@@ -333,7 +340,7 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 		if(commande > stockn1){
 				commande=stockn1;
 		}
-		if(currentjour == '2'){
+		if(currentjour == 2){
 			commande=demandemag;
 			
 		}
@@ -347,7 +354,7 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 		if(commande > stockn1){
 				commande=stockn1;
 		}
-		if(currentjour == '2'){
+		if(currentjour == 2){
 			commande=demandemag;
 		}
 	}
@@ -358,25 +365,26 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 }
 
 
-function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ventes,currentjour){
+function algorupture(profil,stock_debut,stock_fin,rupture,demande,reception,ventes,currentjour){
 	var stockn1 = getstockn1();
 	var demandemag = getdemandemag();
+	var rupturemag = getrupturemag();
+	var rupturen1mag = getrupturen1mag();
 	var stockDebutJournee = stock_debut;
     var stockFinJournee = stock_fin;
     var commande = 0;
     var demandeRecue = demande;
     var produitRecue = reception;
-    var rupture = ruptureA;
-	var rupturemag = getrupturemag();
-	var rupturen1mag = getrupturen1mag();
 	
+	stockn1=parseInt(stockn1);
+	demandemag=parseInt(demandemag);
+	stockDebutJournee=parseInt(stockDebutJournee);
+	stockFinJournee=parseInt(stockFinJournee);
 	demandeRecue=parseInt(demandeRecue);
 	rupture=parseInt(rupture);
-	stockFinJournee=parseInt(stockFinJournee);
-	demandemag=parseInt(demandemag);
-	stockn1=parseInt(stockn1);
 	rupturemag=parseInt(rupturemag);
 	rupturen1mag=parseInt(rupturen1mag);
+	produitRecue=parseInt(produitRecue);
 	
 	/*
 	algo rupture:
@@ -395,14 +403,14 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 	}
 	if(profil == 'grossiste'){
 		commande=(rupturemag-rupturen1mag)+demandemag;
-		if(currentjour <= '2'){
+		if(currentjour <= 2){
 			commande=0;
 			
 		}
 	}
 	if(profil == 'distributeur'){
 		commande=(rupturemag-rupturen1mag)+demandemag;
-		if(currentjour <= '2'){
+		if(currentjour <= 2){
 			commande=0;
 			
 		}
@@ -419,8 +427,8 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		if(rupture > 0){
 			commande=commande+20;
 		}*/
-		commande=(rupturemag-rupturen1mag);
-		if(currentjour <= '2'){
+		commande=rupturemag-rupturen1mag;
+		if(currentjour <= 2){
 			commande=0;
 		}
 	}
