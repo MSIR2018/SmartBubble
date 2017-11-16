@@ -21,6 +21,7 @@ setTimeout(function(){ //on recupère les données json
 	if(profil == 'magasin'){ rolen1='dis'; }
 	
 	var demandemag = data[currentjour-1].mag.demande;
+	var rupturemag = data[currentjour-1].mag.rupture;
 	var joueurstock= data[currentjour-1][rolen1].stock;
 	var joueurvente= data[currentjour-1][rolen1].vente;
 	var joueurreception= data[currentjour-1][rolen1].reception;
@@ -32,6 +33,7 @@ setTimeout(function(){ //on recupère les données json
 	var stockn1 = (joueurstock-joueurvente)+joueurreception;
 	setcookie('stockn1',stockn1);
 	setcookie('demandemag',demandemag);
+	setcookie('rupturemag',rupturemag);
 	
 }, 2000);
 }
@@ -148,6 +150,9 @@ function getstockn1(){
 }
 function getdemandemag(){
 	return getcookie('demandemag');
+}
+function getrupturemag(){
+	return getcookie('rupturemag');
 }
 function getpxvente(){
 	return getcookie('pxvente');
@@ -357,6 +362,7 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
     var demandeRecue = demande;
     var produitRecue = reception;
     var rupture = ruptureA;
+	var rupturemag = getrupturemag();
 	
 	demandeRecue=parseInt(demandeRecue);
 	rupture=parseInt(rupture);
@@ -374,48 +380,28 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 	*/
 	
 	if(profil == 'industriel'){
-		if(stockFinJournee <= 30){
+		if(stockFinJournee <= 20){
 			commande=80;
 		}else{
 			commande=0;
 		}
 	}
 	if(profil == 'grossiste'){
-		if(stockFinJournee < 20){
-			commande=(20-stockFinJournee)+demandemag;
-		}else{
-			commande=demandemag;
-		}
-		if(commande > stockn1){
-					commande=stockn1;
-			}
-		if(rupture > 0){
-			commande=commande+20;
-		}
+		commande=rupturemag+demandemag;
 		if(currentjour <= '2'){
 			commande=0;
 			
 		}
 	}
 	if(profil == 'distributeur'){
-		if(stockFinJournee < 20){
-			commande=(20-stockFinJournee)+demandemag;
-		}else{
-			commande=demandemag;
-		}
-		if(commande > stockn1){
-				commande=stockn1;
-		}
-		if(rupture > 0){
-			commande=commande+20;
-		}
+		commande=rupturemag+demandemag;
 		if(currentjour <= '2'){
 			commande=0;
 			
 		}
 	}
 	if(profil == 'magasin'){
-		if(stockFinJournee < 20){
+		/*if(stockFinJournee < 20){
 			commande=(20-stockFinJournee)+demandemag;
 		}else{
 			commande=demandemag;
@@ -425,7 +411,8 @@ function algorupture(profil,stock_debut,stock_fin,ruptureA,demande,reception,ven
 		}
 		if(rupture > 0){
 			commande=commande+20;
-		}
+		}*/
+		commande=rupturemag;
 		if(currentjour <= '2'){
 			commande=0;
 		}
