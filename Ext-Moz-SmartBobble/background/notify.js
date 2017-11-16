@@ -2,10 +2,10 @@
 function notify(message) {
 	var type = message.type;
 	if(type == "commande"){
-		var icone = "icons/beasts-48.png";
+		var icone = "icons/smartbubble-48.png";
 	}
 	else if(type == "info"){
-		var icone = "icons/beasts-32.png";
+		var icone = "icons/smartbubble-32.png";
 	}
   browser.notifications.create({
     "type": "basic",
