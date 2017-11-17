@@ -7,7 +7,7 @@
   "description": "IA for Bubblemaker",
   "homepage_url": "https://bubblemakerbeta.npgconseil.com/eleve",
   "icons": {
-    "48": "icons/smartbubble-48.png"
+    "48": "icons/beasts-48.png"
   },
 
   "permissions": [
@@ -18,9 +18,9 @@
   ],
 
   "browser_action": {
-    "default_icon": "icons/smartbubble-32.png",
+    "default_icon": "icons/beasts-32.png",
     "default_title": "SmartBubble",
-    "default_popup": "popup/smartbubble.html"
+    "default_popup": "popup/choose_beast.html"
   },
 
 	"background": {
@@ -30,7 +30,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.npgconseil.com/*"],
-      "js": ["/content_scripts/jquery.js", "/content_scripts/bootstrap.js", "/content_scripts/smartbubble-actor.js"]
+      "js": ["/content_scripts/jquery.js", "/content_scripts/bootstrap.js", "/content_scripts/beastify.js"]
     }
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.npgconseil.com; object-src 'self' 'unsafe-eval' https://*.npgconseil.com;"
