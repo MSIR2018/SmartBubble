@@ -395,28 +395,28 @@ function algorupture(profil,stock_debut,stock_fin,rupture,demande,reception,vent
 	*/
 	
 	if(profil == 'industriel'){
-		if(stockFinJournee <= 40){
-			commande=80;
+		if(stockFinJournee <= 30){
+			commande=60;
 		}else{
 			commande=0;
 		}
 	}
 	if(profil == 'grossiste'){
-		commande=(rupturemag-rupturen1mag)+demandemag;
-		if(currentjour <= 2){
-			commande=0;
+		if(stockFinJournee < 20){
+			commande=(20-stockFinJournee)+demandemag;
+		}else{
+			commande=demandemag;
+		}
+		if(commande > stockn1){
+					commande=stockn1;
+			}
+		if(currentjour == 2){
+			commande=demandemag;
 			
 		}
 	}
 	if(profil == 'distributeur'){
-		commande=(rupturemag-rupturen1mag)+demandemag;
-		if(currentjour <= 2){
-			commande=0;
-			
-		}
-	}
-	if(profil == 'magasin'){
-		/*if(stockFinJournee < 20){
+		if(stockFinJournee < 20){
 			commande=(20-stockFinJournee)+demandemag;
 		}else{
 			commande=demandemag;
@@ -424,12 +424,22 @@ function algorupture(profil,stock_debut,stock_fin,rupture,demande,reception,vent
 		if(commande > stockn1){
 				commande=stockn1;
 		}
-		if(rupture > 0){
-			commande=commande+20;
-		}*/
-		commande=rupturemag-rupturen1mag;
-		if(currentjour <= 2){
-			commande=0;
+		if(currentjour == 2){
+			commande=demandemag;
+			
+		}
+	}
+	if(profil == 'magasin'){
+		if(stockFinJournee < 20){
+			commande=(20-stockFinJournee)+demandemag;
+		}else{
+			commande=demandemag;
+		}
+		if(commande > stockn1){
+				commande=stockn1;
+		}
+		if(currentjour == 2){
+			commande=demandemag;
 		}
 	}
 	
