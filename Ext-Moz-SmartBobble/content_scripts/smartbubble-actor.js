@@ -321,12 +321,16 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 		if(stockFinJournee < 60){
 			commande=(60-stockFinJournee)+demandemag;
 		}else{
-			commande=demandemag;
+			if(stockFinJournee > 100){
+				commande=0;
+			}else{
+				commande=demandemag;
+			}
 		}
 		if(commande > stockn1){
 					commande=stockn1;
 			}
-		if(currentjour == 2){
+		if(currentjour == '2'){
 			commande=demandemag;
 			
 		}
@@ -335,12 +339,16 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 		if(stockFinJournee < 60){
 			commande=(60-stockFinJournee)+demandemag;
 		}else{
-			commande=demandemag;
+			if(stockFinJournee > 100){
+				commande=0;
+			}else{
+				commande=demandemag;
+			}
 		}
 		if(commande > stockn1){
-				commande=stockn1;
-		}
-		if(currentjour == 2){
+					commande=stockn1;
+			}
+		if(currentjour == '2'){
 			commande=demandemag;
 			
 		}
@@ -349,13 +357,18 @@ function algostock(profil,stock_debut,stock_fin,ruptureA,demande,reception,vente
 		if(stockFinJournee < 60){
 			commande=(60-stockFinJournee)+demandemag;
 		}else{
-			commande=demandemag;
+			if(stockFinJournee > 100){
+				commande=0;
+			}else{
+				commande=demandemag;
+			}
 		}
 		if(commande > stockn1){
-				commande=stockn1;
-		}
-		if(currentjour == 2){
+					commande=stockn1;
+			}
+		if(currentjour == '2'){
 			commande=demandemag;
+			
 		}
 	}
 	
